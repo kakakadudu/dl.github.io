@@ -19,11 +19,11 @@ scene.background = new THREE.TextureLoader().load('./2k_stars_milky_way.jpg', te
   tex.colorSpace = THREE.SRGBColorSpace;
 })
 
-const stars = new THREE.Object3D();
+const spheres = new THREE.Object3D();
 const ball = new THREE.SphereGeometry(1, 36, 36);
-function createStars(count) {
+function createSpheres(count) {
   for (let i = 0; i < count; i++) {
-    sphere = ball.clone();
+    const sphere = ball.clone();
     const material = new THREE.MeshPhongMaterial({
       color: new THREE.Color(Math.random() * 0xffffff),
       transparent: true,
@@ -34,6 +34,24 @@ function createStars(count) {
     mesh.position.set(Math.random() * cw - cw / 2, Math.random() * ch - ch / 2, Math.random() * 1000 - 500);
     const scale = Math.random() * 0.5 + 0.2;
     mesh.scale.set(scale, scale, scale);
+    spheres.add(mesh);
+    scene.add(spheres);
+  }
+}
+
+const stars = new THREE.Object3D();
+const bufferGeometry = new THREE.BufferGeometry();
+bufferGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6 * 3), 3));
+function createStars(count) {
+  for (let i = 0; i < count; i++) {
+    const material = new THREE.PointsMaterial({
+      color: Math.random() * 0xffffff,
+      transparent: true,
+      opacity: Math.random(),
+      size: Math.random() * 0.8 + 0.2,
+    });
+    const mesh = new THREE.Points(bufferGeometry, material);
+    mesh.position.set(Math.random() * cw - cw / 2, Math.random() * ch - ch / 2, Math.random() * 1000 - 500);
     stars.add(mesh);
     scene.add(stars);
   }
@@ -42,9 +60,11 @@ function createStars(count) {
 // 
 function initial() {
   // 环境光
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+  const ambientLight = new THREE.AmbientLight(0xffffff, 1);
   scene.add(ambientLight);
-  createStars(10);
+
+  createSpheres(10);
+  createStars(2000);
   renderer.render(scene, camera);
 }
 initial();
@@ -64,12 +84,14 @@ function onWindowResize() {
 }
 
 let count = 0;
-function rotate() {
+function rotate(time) {
   count++;
-  stars.rotation.y += 0.001;
+  let n = Math.random() * 0.001 - 0.001;
+  stars.rotation.y -= n;
+  spheres.rotation.y -= n;
   camera.lookAt(new THREE.Vector3(0, 0, 0));
-  if (count % 10 === 0 && stars.children.length < 1000) {
-    createStars(1);
+  if (count % 10 === 0 && spheres.children.length < 1000) {
+    createSpheres(1);
   }
   // 渲染到屏幕
   renderer.render(scene, camera);
