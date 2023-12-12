@@ -19,12 +19,13 @@ scene.background = new THREE.TextureLoader().load('./2k_stars_milky_way.jpg', te
   tex.colorSpace = THREE.SRGBColorSpace;
 })
 
+const list = [];
 const spheres = new THREE.Object3D();
 const ball = new THREE.SphereGeometry(1, 36, 36);
 function createSpheres(count) {
   for (let i = 0; i < count; i++) {
     const sphere = ball.clone();
-    const material = new THREE.MeshPhongMaterial({
+    const material = new THREE.MeshBasicMaterial({
       color: new THREE.Color(Math.random() * 0xffffff),
       transparent: true,
       opacity: Math.random()
@@ -35,6 +36,7 @@ function createSpheres(count) {
     const scale = Math.random() * 0.5 + 0.2;
     mesh.scale.set(scale, scale, scale);
     spheres.add(mesh);
+    list.push(mesh);
     scene.add(spheres);
   }
 }
@@ -48,23 +50,20 @@ function createStars(count) {
       color: Math.random() * 0xffffff,
       transparent: true,
       opacity: Math.random(),
-      size: Math.random() * 0.8 + 0.2,
+      size: Math.random() * 0.5 + 0.2,
     });
     const mesh = new THREE.Points(bufferGeometry, material);
     mesh.position.set(Math.random() * cw - cw / 2, Math.random() * ch - ch / 2, Math.random() * 1000 - 500);
     stars.add(mesh);
+    list.push(mesh);
     scene.add(stars);
   }
 }
 
 // 
 function initial() {
-  // 环境光
-  const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-  scene.add(ambientLight);
-
   createSpheres(10);
-  createStars(2000);
+  createStars(5000);
   renderer.render(scene, camera);
 }
 initial();
@@ -84,11 +83,18 @@ function onWindowResize() {
 }
 
 let count = 0;
-function rotate(time) {
+function rotate() {
   count++;
   let n = Math.random() * 0.001 - 0.001;
-  stars.rotation.y -= n;
-  spheres.rotation.y -= n;
+  stars.rotation.y += n;
+  spheres.rotation.y += n;
+  list.forEach(star => {
+    let n = Math.random() * 0.01 - 0.01;
+    star.rotation.x += n;
+    star.position.x += n;
+    star.position.y += n;
+    star.position.z += n;
+  })
   camera.lookAt(new THREE.Vector3(0, 0, 0));
   if (count % 10 === 0 && spheres.children.length < 1000) {
     createSpheres(1);
