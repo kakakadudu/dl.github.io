@@ -66,7 +66,7 @@ function onWindowResize() {
 let count = 0;
 function rotate() {
   count++;
-  stars.rotation.y += 0.01;
+  stars.rotation.y += 0.001;
   camera.lookAt(new THREE.Vector3(0, 0, 0));
   if (count % 10 === 0 && stars.children.length < 1000) {
     createStars(1);
