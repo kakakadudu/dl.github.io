@@ -3,11 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link rel="stylesheet" href="./index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <title>dl.github.io</title>
 </head>
 
 <body>
-  啥也没有...
+  <div class="wrap">
+    <div class="content one">
+      <span class="animate__animated animate__rotateInDownLeft">嗨</span>
+      <span class="animate__animated animate__fadeInDownBig">！</span>
+    </div>
+  </div>
+  <script src="./three.js"></script>
+  <script src="./bg.js"></script>
+  <script>
+    document.querySelector('.animate__rotateInDownLeft').addEventListener('animationend', (e) => {
+      e.target.classList.remove('animate__rotateInDownLeft')
+      e.target.classList.add('animate__hinge')
+    })
+  </script>
 </body>
 
 </html>

@@ -3,3 +3,46 @@
   padding: 0;
   list-style: none;
 }
+
+body,
+html {
+  background: rgb(0, 0, 0);
+}
+
+::-webkit-scrollbar {
+  width: 1px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(81, 165, 75);
+}
+
+.wrap > canvas {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  height: 100vh;
+  font-size: 14px;
+  color: rgb(255, 255, 255);
+  overflow: hidden;
+}
+
+.content.one {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+}
+
+.content.one > span {
+  margin: 0 10px;
+}
