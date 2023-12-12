@@ -44,7 +44,7 @@ function initial() {
   // 环境光
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
   scene.add(ambientLight);
-  createStars(100);
+  createStars(10);
   renderer.render(scene, camera);
 }
 initial();
