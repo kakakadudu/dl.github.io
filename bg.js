@@ -46,14 +46,21 @@ const bufferGeometry = new THREE.BufferGeometry();
 bufferGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6 * 3), 3));
 function createStars(count) {
   for (let i = 0; i < count; i++) {
+    const z = Math.random() * 10000 - 500;
+    let size = 1;
+    if (z <= 1000) {
+      size = Math.random() * 0.5 + 0.5;
+    } else {
+      size = Math.random() * 0.5 + 1.5;
+    }
     const material = new THREE.PointsMaterial({
       color: Math.random() * 0xffffff,
       transparent: true,
       opacity: Math.random(),
-      size: Math.random() * 0.5 + 0.2,
+      size
     });
     const mesh = new THREE.Points(bufferGeometry, material);
-    mesh.position.set(Math.random() * cw - cw / 2, Math.random() * ch - ch / 2, Math.random() * 1000 - 500);
+    mesh.position.set(Math.random() * cw - cw / 2, Math.random() * ch - ch / 2, z);
     stars.add(mesh);
     list.push(mesh);
     scene.add(stars);
@@ -85,11 +92,11 @@ function onWindowResize() {
 let count = 0;
 function rotate() {
   count++;
-  let n = Math.random() * 0.001 - 0.001;
+  let n = (Math.random() - 0.1) / 10000;
   stars.rotation.y += n;
   spheres.rotation.y += n;
   list.forEach(star => {
-    let n = Math.random() * 0.01 - 0.01;
+    let n = Math.random() * 0.001 - 0.001;
     star.rotation.x += n;
     star.position.x += n;
     star.position.y += n;
@@ -98,6 +105,7 @@ function rotate() {
   camera.lookAt(new THREE.Vector3(0, 0, 0));
   if (count % 10 === 0 && spheres.children.length < 1000) {
     createSpheres(1);
+    createStars(1000);
   }
   // 渲染到屏幕
   renderer.render(scene, camera);
