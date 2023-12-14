@@ -105,7 +105,7 @@ function rotate() {
   camera.lookAt(new THREE.Vector3(0, 0, 0));
   if (count % 10 === 0 && spheres.children.length < 1000) {
     createSpheres(1);
-    createStars(1000);
+    createStars(10);
   }
   // 渲染到屏幕
   renderer.render(scene, camera);
