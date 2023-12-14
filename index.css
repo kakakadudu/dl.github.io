@@ -21,6 +21,35 @@ html {
   background: rgb(81, 165, 75);
 }
 
+.wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.wrap::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '';
+  width: 100%;
+  height: 100%;
+  background: rgb(0, 0, 0) url("./bg.jpeg") center no-repeat;
+  background-size: cover;
+  animation: bgScale 1500ms ease-in;
+}
+
+@keyframes bgScale {
+  0% {
+    opacity: .3;
+    transform: scale(1.1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .wrap > canvas {
   position: fixed;
   inset: 0;
