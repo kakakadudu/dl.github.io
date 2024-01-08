@@ -3,23 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./index.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <title>dl.github.io</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    :root {
+      background: #b2bdd3;
+    }
+
+    section {
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 3rem;
+      font-weight: bold;
+      font-family: 'Courier New', Courier;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .content.one>span {
+      margin: 0 10px;
+    }
+
+    section:nth-of-type(1) {
+      background: url(./main/847-1600x800.jpg) center center / cover no-repeat;
+    }
+
+    section:nth-of-type(2) {
+      background: url(./main/744-1600x800.jpg) center center / cover no-repeat;
+    }
+
+    section:nth-of-type(3) {
+      background: url(./main/565-1600x800.jpg) center center / cover no-repeat;
+    }
+
+    section:nth-of-type(4) {
+      background: url(./main/450-1600x800.jpg) center center / cover no-repeat;
+    }
+
+    section:nth-of-type(5) {
+      background: url(./main/908-1600x800.jpg) center center / cover no-repeat;
+    }
+
+    .content.three {
+      color: #ffffff;
+      text-shadow: 1px 1px 2px #F8BBD0, 0 0 1em #7986CB, 0 0 0.2em #1565C0;
+    }
+
+    .content.five h1 {
+      background: linear-gradient(to bottom, #000000 50%, transparent 50%) center center / 100vw 100vh fixed no-repeat;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-stroke: 2px #F8BBD0;
+    }
+  </style>
 </head>
 
 <body>
-  <div class="wrap">
+  <section>
     <div class="content one">
-      <span class="animate__animated animate__rotateInDownLeft">嗨</span>
-      <span class="animate__animated animate__fadeInDownBig">！</span>
+      <span class="animate__animated animate__rotateInDownLeft">HI</span>
+      <span class="animate__animated animate__fadeInDownBig">!</span>
     </div>
-  </div>
+  </section>
+  <section>
+    <div class="content two">THIS IS THE SECOND</div>
+  </section>
+  <section>
+    <div class="content three">THIS IS THE THIRD</div>
+  </section>
+  <section>
+    <div class="content four">THIS IS THE FOURTH</div>
+  </section>
+  <section>
+    <div class="content five">
+      <h1>THIS IS THE FIFTH</h1>
+    </div>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
   <script>
-    document.querySelector('.animate__rotateInDownLeft').addEventListener('animationend', (e) => {
-      e.target.classList.remove('animate__rotateInDownLeft')
-      e.target.classList.add('animate__hinge')
-    })
+    const sections = document.querySelectorAll('section');
+    gsap.registerPlugin(ScrollTrigger);
+    for (const section of sections) {
+      gsap.fromTo(section,
+        { backgroundPositionY: `-${window.innerHeight / 2}px` },
+        {
+          backgroundPositionY: `${window.innerHeight / 2}px`,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            scrub: true, // important!
+          }
+        });
+    }
   </script>
 </body>
 
