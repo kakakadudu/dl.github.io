@@ -1,9 +1,9 @@
 var config = {
-  width: 886,
-  height: 886,
+  width: 520,
+  height: 520,
   rows: 3,
   cols: 3,
-  src: "./main/greenCat.jpeg",
+  src: "./main/greenCat.png",
   dom: document.getElementById("game"),
   isOver: false,
 }
