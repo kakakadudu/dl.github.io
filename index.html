@@ -25,7 +25,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 3rem;
+      font-size: 7rem;
       font-weight: bold;
       font-family: 'Courier New', Courier;
       height: 100%;
@@ -69,6 +69,28 @@
       color: transparent;
       -webkit-text-stroke: 2px #F8BBD0;
     }
+
+    .content.three {
+      position: relative;
+    }
+
+    .content.three p {
+      position: relative;
+      z-index: 2;
+    }
+
+    .tree {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      /* border-radius: 50%; */
+      overflow: hidden;
+    }
+
+    .tree canvas {
+      background: rgba(21, 101, 192, .2);
+    }
   </style>
 </head>
 
@@ -80,10 +102,15 @@
     </div>
   </section>
   <section>
-    <div class="content two">THIS IS THE SECOND</div>
+    <div class="content two">
+      <div id="game"></div>
+    </div>
   </section>
   <section>
-    <div class="content three">THIS IS THE THIRD</div>
+    <div class="content three">
+      <p>THIS IS THE THIRD</p>
+      <div class="tree"></div>
+    </div>
   </section>
   <section>
     <div class="content four">THIS IS THE FOURTH</div>
@@ -110,6 +137,50 @@
             scrub: true, // important!
           }
         });
+    }
+  </script>
+  <script src="./game.js"></script>
+
+  <script>
+    // tree
+    const canvas = document.createElement("canvas");
+    const h = Math.floor(window.innerHeight / 2);
+    canvas.height = canvas.width = h < 600 ? 600 : h;
+    document.querySelector(".tree").appendChild(canvas);
+    const ctx = canvas.getContext("2d");
+
+    // 调整坐标系
+    ctx.translate(0, canvas.height);
+    ctx.scale(1, -1);
+
+    function drawBranch(v0, length, thick, dir) {
+      if (thick < 8 && Math.random() < 0.2) {
+        return;
+      }
+      if (thick < 2) {
+        ctx.beginPath();
+        ctx.moveTo(...v0);
+        ctx.fillStyle = `hsla(${Math.random() * 360}, 60%, 70%, 1)`;
+        ctx.arc(...v0, randomNumber(thick, thick + 2), 0, 2 * Math.PI);
+        ctx.fill();
+        return;
+      }
+      ctx.beginPath();
+      ctx.moveTo(...v0);
+      ctx.strokeStyle = "#372620";
+      ctx.lineWidth = thick;
+      ctx.lineCap = "round";
+      const v1 = [v0[0] + Math.cos(dir * Math.PI / 180) * length, v0[1] + Math.sin(dir * Math.PI / 180) * length]
+      ctx.lineTo(...v1);
+      ctx.stroke();
+
+      drawBranch(v1, length * 0.8, thick * 0.8, dir - Math.random() * 50);
+      drawBranch(v1, length * 0.8, thick * 0.8, dir + Math.random() * 50);
+    }
+    drawBranch([canvas.width / 2, 0], 100, randomNumber(15, 20), 90);
+
+    function randomNumber(min, max) {
+      return Math.ceil(Math.random() * (max - min) + min);
     }
   </script>
 </body>
